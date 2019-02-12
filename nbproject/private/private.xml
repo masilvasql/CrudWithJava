@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/marce/Documents/NetBeansProjects/cadastraNome/src/Interfaces/ListaProdutos.java</file>
             <file>file:/C:/Users/marce/Documents/NetBeansProjects/cadastraNome/src/Interfaces/CadastrarNomeUI.java</file>
+            <file>file:/C:/Users/marce/Documents/NetBeansProjects/cadastraNome/src/DAO/ProdutoDao.java</file>
+            <file>file:/C:/Users/marce/Documents/NetBeansProjects/cadastraNome/src/Interfaces/CadastrarProdutoUI.java</file>
             <file>file:/C:/Users/marce/Documents/NetBeansProjects/cadastraNome/src/RegraDeNegocio/RnNome.java</file>
             <file>file:/C:/Users/marce/Documents/NetBeansProjects/cadastraNome/src/DAO/NomeDao.java</file>
-            <file>file:/C:/Users/marce/Documents/NetBeansProjects/cadastraNome/src/Interfaces/ListaUsuariosUI.java</file>
-            <file>file:/C:/Users/marce/Documents/NetBeansProjects/cadastraNome/src/Interfaces/MenuPrincipal.java</file>
+            <file>file:/C:/Users/marce/Documents/NetBeansProjects/cadastraNome/src/RegraDeNegocio/RnProduto.java</file>
         </group>
     </open-files>
 </project-private>
