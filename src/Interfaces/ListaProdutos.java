@@ -5,18 +5,56 @@
  */
 package Interfaces;
 
+import Beans.ProdutoBeans;
+import RegraDeNegocio.RnProduto;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author marce
  */
 public class ListaProdutos extends javax.swing.JDialog {
 
+    
+    ProdutoBeans pb = new ProdutoBeans();
+    RnProduto rp = new RnProduto();
+    DefaultTableModel modeloTabela = new DefaultTableModel();
     /**
      * Creates new form ListaProdutos
      */
     public ListaProdutos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+    
+    public void tabelaProdutos(){
+        modeloTabela = (DefaultTableModel)jTable1.getModel(); 
+        jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
+        jTable1.getColumnModel().getColumn(0).setMinWidth(100);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(360);
+        jTable1.getColumnModel().getColumn(2).setMinWidth(500);
+        jTable1.getColumnModel().getColumn(3).setMinWidth(360);
+        ArrayList listaProdutos = rp.listaProdutos(jTextField1.getText());
+        
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        modeloTabela.setNumRows(listaProdutos.size());
+        Iterator iterator = listaProdutos.iterator();
+        int linha = -1;
+        while(iterator.hasNext()){
+            linha ++;
+            pb = (ProdutoBeans)iterator.next();
+            modeloTabela.setValueAt(pb.getId(), linha, 0);
+            modeloTabela.setValueAt(pb.getDescCurta(), linha, 1);
+            modeloTabela.setValueAt(pb.getDescLonga(), linha, 2);
+            modeloTabela.setValueAt(pb.getUnidadeMedida(), linha, 3);
+        }
+        
+        
     }
 
     /**
@@ -42,16 +80,31 @@ public class ListaProdutos extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lista de Produtos");
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setText("Atualizar");
         jButton2.setPreferredSize(new java.awt.Dimension(103, 25));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setText("Deletar");
         jButton3.setPreferredSize(new java.awt.Dimension(103, 25));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton4.setText("Selecionar");
@@ -97,6 +150,12 @@ public class ListaProdutos extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Descrição:");
 
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -121,17 +180,26 @@ public class ListaProdutos extends javax.swing.JDialog {
 
             },
             new String [] {
-                "ID", "Descrição Curta", "Descrição Longa"
+                "ID", "Descrição Curta", "Descrição Longa", "Unidade de Medida"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        jTable1.setMaximumSize(new java.awt.Dimension(999999999, 0));
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -186,6 +254,36 @@ public class ListaProdutos extends javax.swing.JDialog {
         
         
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        this.tabelaProdutos();
+    }//GEN-LAST:event_formComponentShown
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        this.tabelaProdutos();
+    }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int resultado = 0;        
+        try {
+              if(JOptionPane.showConfirmDialog(null, "Deseja Realmente deletar este produto?", "Deletar Produto", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            resultado = rp.deletaProduto((int) jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+            if(resultado == 1){
+                JOptionPane.showMessageDialog(null, "Produto deletado com sucesso!");
+                this.tabelaProdutos();
+            }else{
+                JOptionPane.showMessageDialog(null, "Falha ao deletar produto!");
+            }
+        }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null, "Selecione um item para deletar");
+        }
+      
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

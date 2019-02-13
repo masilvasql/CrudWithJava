@@ -8,6 +8,7 @@ package RegraDeNegocio;
 import Beans.ProdutoBeans;
 import DAO.ProdutoDao;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,5 +31,27 @@ public class RnProduto {
         
         return resultado;
                 
+    }
+    
+    public ArrayList listaProdutos(String descCurta){
+        ArrayList arrayList = new ArrayList();
+        try {
+            ProdutoDao pd = new ProdutoDao();
+            arrayList = pd.listaProdutos(descCurta);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro em RN listaProdutos");
+        }
+        return arrayList;
+    }
+    
+    public int deletaProduto(int id){
+        int resultado = 0;
+        try {
+            ProdutoDao pd = new ProdutoDao();
+            resultado = pd.deletaProduto(id);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro em RN listaProdutos");
+        }
+        return resultado;
     }
 }
