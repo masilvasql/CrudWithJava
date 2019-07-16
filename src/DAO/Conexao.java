@@ -21,7 +21,7 @@ public class Conexao {
         try{
             String url ="jdbc:postgresql://localhost:5432/Java01";
             String usuario = "postgres";
-            String senha = "marcelo'25";
+            String senha = "suasenha";
 
             Class.forName("org.postgresql.Driver");
 
